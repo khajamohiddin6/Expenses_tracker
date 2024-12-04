@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block start %}
+<h2>Welcome, {{ user.username }}</h2>
+<p><strong>Balance:</strong> ${{ profile.balance }}</p>
+<p><strong>Total Expenses:</strong> ${{ profile.expenses }}</p>
+<p><strong>Total Income:</strong> ${{ profile.income }}</p>
+
+<h2>Expense Tracker</h2>
+
+<!-- Form to Update Total Income and Expenses -->
+<h3>Set Total Income and Expenses</h3>
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="update_totals" value="true">
+    <div class="form-control">
+        <label for="income">Total Income:</label>
+        <input type="number" name="income" id="income" value="{{ profile.income }}" step="0.01" required>
+    </div>
+    <div class="form-control">
+        <label for="expenses">Total Expenses:</label>
+        <input type="number" name="expenses" id="expenses" value="{{ profile.expenses }}" step="0.01" required>
+    </div>
+    <button class="btn" type="submit">Update Totals</button>
+</form>
+
+<!-- Existing Balance and Transaction Forms -->
+<div class="container">
+    <h4>Your Balance</h4>
+    <h1 id="balance">${{ profile.balance }}</h1>
+
+    <div class="inc-exp-container">
+        <div>
+            <h4>Income</h4>
+            <p id="money-plus" class="money plus">+${{ profile.income }}</p>
+        </div>
+        <div>
+            <h4>Expense</h4>
+            <p id="money-minus" class="money minus">-${{ profile.expenses }}</p>
+        </div>
+    </div>
+
+    <!-- History of Transactions -->
+    <h3>History</h3>
+    <ul id="list" class="list">
+        {% for expense in expenses %}
+            {% if expense.expense_type == 'Positive' %}
+                <li class="plus">
+                    {{ expense.name }} <span>+${{ expense.amount }}</span>
+                    <a href="{% url 'delete_expense' expense.id %}" class="delete-btn">X</a>
+                </li>
+            {% else %}
+                <li class="minus">
+                    {{ expense.name }} <span>-${{ expense.amount }}</span>
+                    <a href="{% url 'delete_expense' expense.id %}" class="delete-btn">X</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <!-- Add New Transaction -->
+    <h3>Add new transaction</h3>
+    <form id="form" method="POST">
+        {% csrf_token %}
+        <div class="form-control">
+            <label for="text">Text</label>
+            <input type="text" required name="text" id="text" placeholder="Enter text...">
+        </div>
+        <div class="form-control">
+            <label for="amount">Amount <br>(negative - expense, positive - income)</label>
+            <input type="number" required name="amount" id="amount" placeholder="Enter amount...">
+        </div>
+        <div class="form-control">
+            <label for="expense_type">Expense Type</label>
+            <select name="expense_type" required class="form-control">
+                <option value="Positive">Positive</option>
+                <option value="Negative">Negative</option>
+            </select>
+        </div>
+        <button class="btn" type="submit">Add transaction</button>
+    </form>
+</div>
+{% endblock %}
