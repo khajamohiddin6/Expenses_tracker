@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Secret Key, Debug Mode and Allowed Hosts from .env file
 SECRET_KEY = env('SECRET_KEY')  # Pull from .env
 DEBUG = env.bool('DEBUG', default=False)  # If DEBUG is not set, use False by default
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1'])
+ALLOWED_HOSTS = ['expense.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -58,15 +58,17 @@ WSGI_APPLICATION = 'expense.wsgi.application'
 
 # Database settings from .env
 DATABASES = {
+    
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME'),
-        'USER': os.environ.get('DATABASE_USER'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-        'HOST': os.environ.get('DATABASE_HOST'),
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
     }
 }
+
 
 
 # Password validation
@@ -86,6 +88,7 @@ USE_TZ = True
 
 # Static files settings
 STATIC_URL = '/static/'
+# Ensure the directory exists, or create it
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'public/static')]  # Static files directory
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Folder to collect static files into
 
