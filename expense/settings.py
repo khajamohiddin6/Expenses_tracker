@@ -4,7 +4,7 @@ from pathlib import Path
 
 # Initialize environment variables
 env = environ.Env()
-print(environ.Env.read_env())
+environ.Env.read_env()  # Reads the .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,8 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Secret Key, Debug Mode and Allowed Hosts from .env file
 SECRET_KEY = env('SECRET_KEY')  # Pull from .env
 DEBUG = env.bool('DEBUG', default=False)  # If DEBUG is not set, use False by default
-ALLOWED_HOSTS = ['expense.onrender.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])  # Pull allowed hosts from .env
 
 # Application definition
 INSTALLED_APPS = [
@@ -56,9 +55,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'expense.wsgi.application'
 
-# Database settings from .env
+
 DATABASES = {
-    
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': env('DATABASE_NAME'),
@@ -68,8 +66,6 @@ DATABASES = {
         'PORT': env('DATABASE_PORT'),
     }
 }
-
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
