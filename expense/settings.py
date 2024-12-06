@@ -23,13 +23,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',  # Your app here
-    'whitenoise.runserver_nostatic',
-
+    'whitenoise.runserver_nostatic',  # Whitenoise for serving static files
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Make sure this is above static file middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -43,7 +42,7 @@ ROOT_URLCONF = 'expense.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Update if you have custom templates
+        'DIRS': [BASE_DIR / 'templates'],  # Ensure templates are in the correct folder
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,7 +69,7 @@ DATABASES = {
     }
 }
 
-# Password validation
+# Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
@@ -78,7 +77,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
-# Internationalization
+# Localization settings
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -86,20 +85,18 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files settings
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'public/static']  # Ensure this folder exists
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Folder to collect static files
+STATICFILES_DIRS = [BASE_DIR / 'public/static']  # Ensure the directory exists
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory for collected static files
 
-# Whitenoise static files storage
+# Whitenoise for serving static files efficiently
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 # Media files settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'public/media'  # Folder for uploaded files
 
-# Login Redirect URL
+# Redirect URL after login
 LOGIN_REDIRECT_URL = '/'
 
 # Default auto field
