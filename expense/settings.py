@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Secret Key, Debug Mode, and Allowed Hosts from .env file
 SECRET_KEY = env('SECRET_KEY', default='your_default_secret_key')  # Pull from .env, with default fallback
 DEBUG = env.bool('DEBUG', default=False)  # Use False as default if DEBUG is not set
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', 'expenses_tracker.onrender.com', 'www.expenses_tracker.onrender.com']) # Defaults to localhost
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 # Application definition
 INSTALLED_APPS = [
